@@ -1,8 +1,6 @@
 import socket
 import threading
 
-print_lock = threading.Lock()
-
 def createThread(c, addr):
     print(f"New connection from: {addr}")
     print(f"Thread name: {threading.currentThread().getName()}")
@@ -12,7 +10,6 @@ def createThread(c, addr):
         print(f"Receiving from client side: {data.decode('ascii')}")
         if not data:
             print('Bye')
-            print_lock.release()
             break
 
         server_message = input("Enter your message: ")
@@ -32,7 +29,6 @@ def main():
 
     while True:
         c, addr = s.accept()
-        print_lock.acquire()
         print(f"Connected to {addr[0]}, {addr[1]}")
         print("Thread name before creating:", threading.currentThread().getName())
         thread = threading.Thread(target=createThread, args=(c, addr))
