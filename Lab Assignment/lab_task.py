@@ -6,7 +6,7 @@ import time
 def mat_vec_multiply(matrix_row, vector):
     return np.dot(matrix_row, vector)
 
-def mat_vec_multiply1(args):
+def for_map(args):
     matrix_row, vector = args
     return np.dot(matrix_row, vector)
 
@@ -37,18 +37,19 @@ def apply_async_method(A, B):
 def map_method(A, B):
     start_time = time.time()
     pool = multiprocessing.Pool()
-    result = pool.map(mat_vec_multiply, [(row, B) for row in A])
+    result = pool.map(for_map, [(row, B) for row in A])
     pool.close()
     pool.join()
     end_time = time.time()
     execution_time = end_time - start_time
     return result, execution_time
-    
+
+
 # Function for multiprocessing using map_async method
 def map_async_method(A, B):
     start_time = time.time()
     pool = multiprocessing.Pool()
-    result = pool.map(mat_vec_multiply1, [(row, B) for row in A])
+    result = pool.map_async(for_map, [(row, B) for row in A])
     pool.close()
     pool.join()
     end_time = time.time()
